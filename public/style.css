@@ -1,0 +1,259 @@
+h1 {
+	text-align: center;
+}
+th {
+  margin-left: 20px;
+}
+.left {
+  text-align: left;
+}
+
+#sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+#sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
+#sortable li span { position: absolute; margin-left: -1.3em; }
+#makeMeDraggable { width: 300px; height: 300px; background: red; }
+
+@-webkit-keyframes blink { 50% { border-color: red; }  }
+.enRoute { 
+  border: 4px solid  ;
+  text-align:center ;
+  -webkit-animation: blink 1s step-end infinite alternate; 
+}
+
+#tab {
+    text-align:center ;
+}
+
+a.disabled {
+    pointer-events: none;
+}
+
+#table::-webkit-scrollbar-track
+{
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 10px;
+  background-color: #F5F5F5;
+}
+
+#table::-webkit-scrollbar
+{
+  width: 12px;
+  background-color: #F5F5F5;
+}
+
+#table::-webkit-scrollbar-thumb
+{
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: #555;
+}
+
+
+ td {
+  height: 90px;
+ }
+
+.r{
+  background-color: RGBA(0, 0, 0, 0.7);
+  padding: 10px 20px;
+  border-radius: 10px 10px 10px 10px;
+  margin: 5px;
+  margin-right: 0;
+  color: #fff
+}
+
+.l{
+  background-color: RGBA(0, 0, 0, 0.7);
+  padding: 50px 40px;
+  border-radius: 10px 10px 10px 10px;
+  margin: 5px;
+  margin-left: 0;
+}
+
+body {
+
+  background-size:cover;
+  background-repeat:no-repeat;
+  background-color: RGBA(0, 0, 0, 0.2);
+  background-attachment: fixed;
+
+  
+/*  color: #555;*/
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 16px;
+  background-image: url('back.jpg');
+
+}
+
+#tab {
+  font-family: 'Coda', cursive;
+  font-size: 16px;
+}
+
+
+
+.fifty {
+	margin: 50px;
+}
+
+.plashka {
+	margin-bottom: 20px;
+}
+
+#oyuncular {
+	height: auto;
+  overflow: auto;
+    
+}
+
+#salam {
+  margin: 20px;
+}
+
+/*.table {
+	color: #000;
+}*/
+
+.btn {
+  margin: 5px;
+}
+
+.kol {
+  border-style: groove;
+  border-width: 0px 2px 0px 0px; 
+}
+
+#out {
+  border-width: 0px 0px 0px 0px; 
+}
+
+.kol h3 {
+  border-style: groove;
+  border-width: 0px 0px 2px 0px;
+  text-align: center 
+
+}
+
+.but {
+  border-radius: 4px;
+  background-color: #f4511e;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.but span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.but span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.but:hover span {
+  padding-right: 25px;
+}
+
+.but:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+.butl {
+  border-radius: 4px;
+  background-color: #f4511e;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.butl span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.butl span:before {
+  content: '\00ab  ';
+  /*position: absolute;*/
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.butl:hover span {
+  padding-left: 10px;
+}
+
+.butl:hover span:before {
+  opacity: 1;
+  right: 0;
+}
+
+/*///////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+/* Container holding the image and the text */
+.container {
+    position: relative;
+    text-align: center;
+}
+
+/* Bottom left text */
+.bottom-left {
+    position: absolute;
+    bottom: 28px;
+    left: 58px;
+    color: black;
+    font-size: 16px
+}
+
+
+
+.top {
+    position: absolute;
+    top: 12%;
+    right: 50%;
+    color: black;
+    font-size: 16px
+}
+
+
+/* Bottom right text */
+.bottom-right {
+    position: absolute;
+    bottom: 28px;
+    right: 58px;
+    color: black;
+    font-size: 16px
+}
+
+/* Centered text */
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: black;
+}
+
+#oyuncular {
+  height: auto;
+  overflow: auto;
+    
+}

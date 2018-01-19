@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Что? Где? Когда? фэнтези</title>
+		<script src="https://code.jquery.com/jquery.js">
+		</script>
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous">
+		</script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/ocanvas/2.9.0/ocanvas.min.js"></script>
+
+
+		<link rel="stylesheet" href="style.css">
+
+		<link rel="stylesheet" href="/public/style.css">
+		<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+
+</head>
+	<script src="./public/js/time.js"></script>
+	<!-- <script src="./public/js/touch.js"></script> -->
+
+<body>
+	<div class="container">
+		<div class="row" style="margin: 50px">
+			<div class="col-md-9">
+				<h1 >Что? Где? Когда? фэнтези</h1>
+			</div>
+			<div class="col-md-3">
+			<div style="position: fixed; margin-left: 15px">
+				<a href="/"><button class="btn btn-default" style="margin-left: 0px"> На главную</button></a>
+				<a href='/signout'><button class="btn-danger" type="button"> Выход</button></a>	
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-9">
+				<div class="btn-group btn-group-justified " role="group" aria-label="...">
+				  <div class="btn-group" role="group">
+				    <a href="/rules"><button type="button" class="btn btn-default">Правила</button></a>
+				  </div>
+				  <div class="btn-group" role="group">
+				    <a href=""></a><button type="button" class="btn btn-default">Моя команда</button></a>
+				  </div>
+				  <div class="btn-group" role="group">
+				    <a href=""></a><button type="button" class="btn btn-default">Рейтинг пользователей</button></a>
+				  </div>
+				  <div class="btn-group" role="group">
+				    <a href=""><button type="button" class="btn btn-default">Рейтинг игроков</button></a>
+				  </div>
+				</div>
+			</div>
+		</div>	
+		<div class="row">
+			<div class="col-md-9">
+			<br>
+				<h2>Рейтинг игроков</h1>
+				<div class="tablica">
+			        <table class="table" id="table">
+			          <tr>
+			          <th></th>
+			          <th>Игрок</th>
+			          <th>Команда</th>
+			          <th>Очки</th>
+			            
+			          </tr>
+			          <tr class="results"></tr>
+			        </table>
+			     </div>
+				
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	$.ajax({
+  url:"/api/ratingp",
+  type: 'GET'}).done(function(data){
+   $(".results").html(" ");
+     console.log(data);
+        for (var i = 0; i < data.length; i++) {
+        var wellSection = $("<tr class='results'>");
+        wellSection.addClass("well");
+        wellSection.attr("id", "c" + i);
+        $("#table").append(wellSection);
+        $("#c" + i).append("<th class='foto'><img src='" + data[i].photo + "'></th>");
+        $("#c" + i).append("<th class='imya'>" + data[i].name + "</th>");
+        $("#c" + i).append("<th class='komanda'>"+ data[i].team +"</th>");
+        $("#c" + i).append("<th class='ochki'>" + data[i].score + "</th></tr>");
+        };
+    });
+</script>
+
+
+
+</html>
