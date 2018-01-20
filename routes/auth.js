@@ -70,11 +70,11 @@ app.get('/', isLoggedIn, authController.index);
             }
   }
 
-  function submitForm(req,res){
+  function submitForm(req,res, next){
   recaptcha.validateRequest(req)
   .then(function(){
     // validated and secure
-    res.json({formSubmit:true})
+    return next();
   })
   .catch(function(errorCodes){
     // invalid
