@@ -11,7 +11,7 @@
 		</script>
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/ocanvas/2.9.0/ocanvas.min.js"></script>
 
-
+		<link rel="shortcut icon" href="http://www.gametv.az/ru/images/favicon.gif" type="image/gif" />
 		<link rel="stylesheet" href="style.css">
 
 		<link rel="stylesheet" href="/public/style.css">
@@ -88,7 +88,14 @@
         $("#c" + i).append("<th class='foto'><img src='" + data[i].photo + "'></th>");
         $("#c" + i).append("<th class='imya'>" + data[i].name + "</th>");
         $("#c" + i).append("<th class='komanda'>"+ data[i].team +"</th>");
-        $("#c" + i).append("<th class='ochki'>" + data[i].score + "</th></tr>");
+        var score;
+        if (data[i].score == null) {
+        	score = 0;
+        }
+        else {
+        	score = data[i].score;
+        }
+        $("#c" + i).append("<th class='ochki'>" + score + "</th></tr>");
         };
     });
 </script>

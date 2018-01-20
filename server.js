@@ -23,6 +23,8 @@ var connection = mysql.createConnection({
   database: "cxsl9gryw3jcio1f"
 });
 
+module.exports = connection;
+
 connection.connect(function(err) {
   if (err) {
     console.error("error connecting: " + err.stack);
@@ -72,21 +74,7 @@ app.listen(PORT, function() {
   console.log("App listening on PORT " + PORT);
 });
 
-app.post("/api/addplayer", function(req, res) {
 
-  var parameters = [
-    [req.body.name, req.body.captain, req.body.team]
-  ];;
-  console.log(parameters)
-
-  connection.query("INSERT INTO players (name, captain, team) VALUES ?", [parameters],
- function(err, data) {
-  console.log("updated")
-});
-
-  return res.sendFile(path.join(__dirname, "/public/addplayer.html"));
-
-});
 
 app.get("/getteams", function(req, res) {
   var teams;

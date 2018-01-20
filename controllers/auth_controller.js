@@ -14,6 +14,12 @@ exports.login = function(req, res) {
 
 }
 
+exports.admin = function(req, res) {
+
+    res.sendFile(path.join(__dirname, "../public/admin.html"))
+
+}
+
 exports.signout = function(req, res) {
 
     req.session.destroy(function(err) {

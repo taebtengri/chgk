@@ -38,9 +38,7 @@ module.exports = function(passport, user) {
 
     {
 
-      // by default, local strategy uses username and password, we will override with email
-
-      usernameField: 'email',
+      usernameField: 'username',
 
       passwordField: 'password',
 
@@ -49,7 +47,7 @@ module.exports = function(passport, user) {
     },
 
 
-    function(req, email, password, done) {
+    function(req, username, password, done) {
 
       var User = user;
 
@@ -61,20 +59,20 @@ module.exports = function(passport, user) {
 
       User.findOne({
         where: {
-          email: email
+          username: username
         }
       }).then(function(user) {
 
         if (!user) {
 
           return done(null, false, {
-            message: 'Email does not exist'
+            message: 'Username does not exist'
           });
 
         }
 
         if (!isValidPassword(user.password, password)) {
-          console.log("incorrect password attempt for: " + user.email);
+          console.log("incorrect password attempt for: " + user.username);
           return done(null, false, {
             message: 'Incorrect password.'
           });
@@ -83,10 +81,10 @@ module.exports = function(passport, user) {
 
 
         var userinfo = user.get();
-        console.log("signed in as: " + user.email);
+        console.log("signed in as: " + user.username);
         User.findOne({
         where: {
-          email: email
+          username: username
         }
         }).then(function(user) {
                 
@@ -117,7 +115,7 @@ module.exports = function(passport, user) {
 
     {
 
-      usernameField: 'email',
+      usernameField: 'username',
 
       passwordField: 'password',
 
@@ -127,7 +125,7 @@ module.exports = function(passport, user) {
 
 
 
-    function(req, email, password, done) {
+    function(req, username, password, done) {
 
       var generateHash = function(password) {
 
@@ -139,7 +137,7 @@ module.exports = function(passport, user) {
 
       User.findOne({
         where: {
-          email: email
+          username: username
         }
       }).then(function(user) {
 
@@ -147,7 +145,7 @@ module.exports = function(passport, user) {
 
         {
           return done(null, false, {
-            message: 'That email is already taken'
+            message: 'That username is already taken'
           });
 
         } else
@@ -159,9 +157,9 @@ module.exports = function(passport, user) {
           var data =
 
             {
-              email: email,
+              email: req.body.email,
 
-              username: req.body.username,
+              username: username,
 
               password: userPassword,
 
@@ -180,7 +178,7 @@ module.exports = function(passport, user) {
             }
 
             if (newUser) {
-              console.log("user registered: " + data.email);
+              console.log("user registered: " + data.username);
 
               return done(null, newUser);
 

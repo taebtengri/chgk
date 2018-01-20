@@ -11,7 +11,7 @@
 		</script>
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/ocanvas/2.9.0/ocanvas.min.js"></script>
 
-
+		<link rel="shortcut icon" href="http://www.gametv.az/ru/images/favicon.gif" type="image/gif" />
 		<link rel="stylesheet" href="style.css">
 
 		<link rel="stylesheet" href="/public/style.css">
@@ -24,13 +24,14 @@
 
 <body>
 	<div class="container">
-		<div class="row" style="margin: 50px">
+		<div class="row" >
 			<div class="col-md-9">
-				<h1 >Что? Где? Когда? фэнтези</h1>
+				<h1 style="margin: 50px">Что? Где? Когда? фэнтези</h1>
 			</div>
 			<div class="col-md-3">
-				<a href='/signout'><button class="btn-danger" type="button"> Sign out</button></a>	
-				<a href='/addplayer'><button class="btn-primary" type="button"> Добавить игрока</button></a>
+				<div id="username"></div>
+				<a href='/signout'><button class="btn-danger" type="button"> Выход</button></a>
+				<div id="aaa"></span>	
 			</div>
 		</div>
 		<div class="row">
@@ -53,6 +54,20 @@
 		</div>	
 	</div>
 </body>
+
+<script type="text/javascript">
+
+$.ajax({
+	url:"/api/user_data",
+	type: 'GET'}).done(function(data) {
+		$("#username").html("Добро пожаловать, " + data.username.firstname);
+		if (data.username.firstname == "admin") {
+			$("#aaa").html('<br><a href="/admin"><button class="btn-primary" type="button"> Панель администратора</button></a>')
+		}
+	});
+
+	
+</script>
 
 
 

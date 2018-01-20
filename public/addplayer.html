@@ -10,17 +10,14 @@
 			crossorigin="anonymous">
 		</script> -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-
+    
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous">
 		</script>
 
 		<link rel="stylesheet" href="style.css">
 
 		<link rel="stylesheet" href="/public/style.css">
-    <link rel="shortcut icon" href="http://vizzia.hostingserver1.com/wp-content/uploads/2013/02/favicon10.ico" />
-    <link rel="icon" href="http://vizzia.hostingserver1.com/wp-content/uploads/2013/02/favicon12.ico" type="image/png"/>
-    <link rel="icon" href="http://vizzia.hostingserver1.com/wp-content/uploads/2013/02/favicon11.ico" type="image/gif"/>
-    <link rel="apple-touch-icon" href="http://vizzia.hostingserver1.com/wp-content/uploads/2013/02/favicon10.ico" />
+    <link rel="shortcut icon" href="http://www.gametv.az/ru/images/favicon.gif" type="image/gif" />
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
 
 
@@ -33,7 +30,7 @@
 	<div class="container">
 
     <p class="lead">Добавить игрока:</p>
-    <form role="form" action="/api/addplayer" method="post" style="max-width: 300px; margin: 0 auto;'">
+    <form id="form" role="form" action="/api/addplayer" method="post" style="max-width: 300px; margin: 0 auto;'">
         <div class="form-group"><input class="form-control" type="text" name="name" placeholder="Имя и фамилия" /></div>
         <div class="form-group"><h5>Капитан? </h5>
           <select class="form-control" name="captain">
@@ -45,9 +42,9 @@
         <select class="form-control" name="team" id="teamlist">
             
           </select>
-        <h4 id='result'></h2>
+        <h4 id='result'></h4>
         <button class="btn btn-default" type="submit">Добавить</button> 
-        <a href="/"><button class="btn btn-primary" type="button">Отмена</button></a>
+        <a href="/admin"><button class="btn btn-primary" type="button">Назад</button></a>
         </form>
 </div>
 </body>
@@ -60,6 +57,18 @@ $.get("/getteams", function(data) {
     $("#teamlist").append("<option value='"+ data[i].name +"'>" + data[i].name + "</option>");
   }
 })
+
+$("#form").submit(function(event){
+    event.preventDefault(); //prevent default action 
+    var post_url = $(this).attr("action"); //get form action url
+    var form_data = $(this).serialize(); //Encode form elements for submission
+    
+    $.post( post_url, form_data, function( response ) {
+      console.log(response)
+        $("#result").html("Игрок " + response[0][0] + " добавлен.")
+    });
+});
+           
 
 
 </script>
