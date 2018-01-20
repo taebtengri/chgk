@@ -19,6 +19,7 @@
 		<link rel="stylesheet" href="/public/style.css">
     <link rel="shortcut icon" href="http://www.gametv.az/ru/images/favicon.gif" type="image/gif" />
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 
 
 </head>
@@ -31,7 +32,7 @@
     <h1>Регистрация</h1>
     <br>
     <p class="lead">Укажите информацию для регистрации:</p>
-    <form role="form" action="/register" method="post" style="max-width: 300px; margin: 0 auto;'">
+    <form role="form" action="/register" method="post" id= "form" style="max-width: 300px; margin: 0 auto;'">
         <div class="form-group"><input class="form-control" type="text" id="email" name="email" placeholder="Электронный адрес" /></div>
         <div class="form-group"><input class="form-control" type="text" name="username" placeholder="Имя пользователя" /></div>
         <div class="form-group"><input class="form-control" type="password" id="p1" name="password" placeholder="Пароль" /></div>
@@ -40,6 +41,7 @@
         <div class="form-group"><input class="form-control" type="text" name="lastname" placeholder="Фамилия" />
         </div>
         <h4 id='result'></h2>
+        <div class="g-recaptcha" data-sitekey="6LceqEEUAAAAAE3yURYuIsFpFH0DGdgFE8sMPCnA"></div><br>
         <button class="btn btn-default" type="submit" id='validate'>Регистрация</button> 
         <a href="/"><button class="btn btn-primary" type="button">Отмена</button></a>
         </form>
@@ -74,6 +76,21 @@ function validate() {
 }
 
 $("#validate").bind("click", validate);
+
+$(document).ready(function() {
+      $('#form').submit(function() {
+        $(this).ajaxSubmit({
+          error: function(xhr) {
+            status('Error: ' + xhr.status);
+          },
+         success: function(response) {
+          console.log(response);
+         }
+        });
+        //Very important line, it disable the page refresh.
+        return false;
+      });
+    });
 </script>
 
 
