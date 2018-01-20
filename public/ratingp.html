@@ -61,9 +61,9 @@
 			        <table class="table" id="table">
 			          <tr>
 			          <th></th>
-			          <th>Игрок</th>
-			          <th>Команда</th>
-			          <th>Очки</th>
+			          <th><button type="button" class="btn btn-default" id="igrok">Игрок</button></th>
+			          <th><button type="button" class="btn btn-default" id="komanda">Команда</button></th>
+			          <th><button type="button" class="btn btn-default" id="ochki">Очки</button></th>
 			            
 			          </tr>
 			          <tr class="results"></tr>
@@ -75,6 +75,11 @@
 	</div>
 </body>
 <script type="text/javascript">
+
+var ci = 0;
+var ck = 0;
+var co = 0;
+
 	$.ajax({
   url:"/api/ratingp",
   type: 'GET'}).done(function(data){
@@ -98,6 +103,114 @@
         $("#c" + i).append("<th class='ochki'>" + score + "</th></tr>");
         };
     });
+
+$("#igrok").click(function(){
+	var url;
+	if (ci % 2 !== 0) {
+		url = "ratingpia"
+	}
+	else {
+		url = "ratingpid"
+	}
+	ci++
+	$("#results").html("");
+	$.ajax({
+  	url:"/api/" + url,
+  	type: 'GET'}).done(function(data){
+   $(".results").html(" ");
+     console.log(data);
+        for (var i = 0; i < data.length; i++) {
+        var wellSection = $("<tr class='results'>");
+        wellSection.addClass("well");
+        wellSection.attr("id", "c" + i);
+        $("#table").append(wellSection);
+        $("#c" + i).append("<th class='foto'><img src='" + data[i].photo + "'></th>");
+        $("#c" + i).append("<th class='imya'>" + data[i].name + "</th>");
+        $("#c" + i).append("<th class='komanda'>"+ data[i].team +"</th>");
+        var score;
+        if (data[i].score == null) {
+        	score = 0;
+        }
+        else {
+        	score = data[i].score;
+        }
+        $("#c" + i).append("<th class='ochki'>" + score + "</th></tr>");
+        };
+    });
+})
+
+$("#komanda").click(function(){
+	$("#results").html("");
+	var url;
+	if (ck % 2 !== 0) {
+		url = "ratingpka"
+	}
+	else {
+		url = "ratingpkd"
+	}
+	ck++
+	$("#results").html("");
+	$.ajax({
+  	url:"/api/" + url,
+  	type: 'GET'}).done(function(data){
+   $(".results").html(" ");
+     console.log(data);
+        for (var i = 0; i < data.length; i++) {
+        var wellSection = $("<tr class='results'>");
+        wellSection.addClass("well");
+        wellSection.attr("id", "c" + i);
+        $("#table").append(wellSection);
+        $("#c" + i).append("<th class='foto'><img src='" + data[i].photo + "'></th>");
+        $("#c" + i).append("<th class='imya'>" + data[i].name + "</th>");
+        $("#c" + i).append("<th class='komanda'>"+ data[i].team +"</th>");
+        var score;
+        if (data[i].score == null) {
+        	score = 0;
+        }
+        else {
+        	score = data[i].score;
+        }
+        $("#c" + i).append("<th class='ochki'>" + score + "</th></tr>");
+        };
+    });
+})
+
+$("#ochki").click(function(){
+	$("#results").html("");
+	var url;
+	if (co % 2 !== 0) {
+		url = "ratingp"
+	}
+	else {
+		url = "ratingpd"
+	}
+	co++
+	$("#results").html("");
+	$.ajax({
+  	url:"/api/" + url,
+  	type: 'GET'}).done(function(data){
+   $(".results").html(" ");
+     console.log(data);
+        for (var i = 0; i < data.length; i++) {
+        var wellSection = $("<tr class='results'>");
+        wellSection.addClass("well");
+        wellSection.attr("id", "c" + i);
+        $("#table").append(wellSection);
+        $("#c" + i).append("<th class='foto'><img src='" + data[i].photo + "'></th>");
+        $("#c" + i).append("<th class='imya'>" + data[i].name + "</th>");
+        $("#c" + i).append("<th class='komanda'>"+ data[i].team +"</th>");
+        var score;
+        if (data[i].score == null) {
+        	score = 0;
+        }
+        else {
+        	score = data[i].score;
+        }
+        $("#c" + i).append("<th class='ochki'>" + score + "</th></tr>");
+        };
+    });
+})
+
 </script>
 
 

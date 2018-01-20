@@ -96,5 +96,55 @@ app.get("/api/ratingp", function(req, res) {
 
 });
 
+app.get("/api/ratingpd", function(req, res) {
+  var players;
+  connection.query("SELECT * FROM players ORDER BY score ASC, team ASC", {
+}, function(err, data) {
+  players = data;
+  return res.json(players);
+});
+
+});
+
+app.get("/api/ratingpia", function(req, res) {
+  var players;
+  connection.query("SELECT * FROM players ORDER BY name ASC", {
+}, function(err, data) {
+  players = data;
+  return res.json(players);
+});
+
+});
+
+app.get("/api/ratingpid", function(req, res) {
+  var players;
+  connection.query("SELECT * FROM players ORDER BY name DESC", {
+}, function(err, data) {
+  players = data;
+  return res.json(players);
+});
+
+});
+
+app.get("/api/ratingpka", function(req, res) {
+  var players;
+  connection.query("SELECT * FROM players ORDER BY team ASC", {
+}, function(err, data) {
+  players = data;
+  return res.json(players);
+});
+
+});
+
+app.get("/api/ratingpkd", function(req, res) {
+  var players;
+  connection.query("SELECT * FROM players ORDER BY team DESC", {
+}, function(err, data) {
+  players = data;
+  return res.json(players);
+});
+
+});
+
 
 
