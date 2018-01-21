@@ -34,11 +34,11 @@
     <p class="lead">Укажите информацию для регистрации:</p>
     <form role="form" action="/register" method="post" id= "form" style="max-width: 300px; margin: 0 auto;'">
         <div class="form-group"><input class="form-control" type="text" id="email" name="email" placeholder="Электронный адрес" /></div>
-        <div class="form-group"><input class="form-control" type="text" name="username" placeholder="Имя пользователя" /></div>
+        <div class="form-group"><input class="form-control" id="username" type="text" name="username" placeholder="Имя пользователя" /></div>
         <div class="form-group"><input class="form-control" type="password" id="p1" name="password" placeholder="Пароль" /></div>
         <div class="form-group"><input class="form-control" type="password" id="p2" name="password2" placeholder="Повторите пароль" /></div>
-        <div class="form-group"><input class="form-control" type="text" name="firstname" placeholder="Имя" /></div>
-        <div class="form-group"><input class="form-control" type="text" name="lastname" placeholder="Фамилия" />
+        <div class="form-group"><input class="form-control" id="firstname" type="text" name="firstname" placeholder="Имя" /></div>
+        <div class="form-group"><input class="form-control" id="lastname" type="text" name="lastname" placeholder="Фамилия" />
         </div>
         <h4 id='result'></h2>
         <div class="g-recaptcha" data-sitekey="6LceqEEUAAAAAE3yURYuIsFpFH0DGdgFE8sMPCnA"></div><br>
@@ -71,6 +71,15 @@ function validate() {
     $("#result").css("color", "red");
     return false;
   }
+
+  if ($("#email").val().trim() == "" || $("#p1").val().trim() == "" || $("#p2").val().trim() == "" ||
+    $("#firstname").val().trim() == "" || $("#lastname").val().trim() == "") {
+    $("#result").text("Введите полную информацию");
+    $("#result").css("color", "red");
+    return false;
+  }
+
+
 
 
 }
