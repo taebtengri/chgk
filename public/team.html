@@ -62,7 +62,7 @@
 		<div class="row">
 			<div class="col-md-9">
 			<br>
-				<h2>Моя команда</h1>
+				<h2>Команда пользователя <span id="spanname"></span></h1>
 				<div class="tablica">
 			        <table class="table" id="table">
 			          <tr>
@@ -81,13 +81,34 @@
 	</div>
 </body>
 <script type="text/javascript">
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+var foo = getParameterByName('id')
+var userid = foo
+
 $.ajax({
-	url:"/api/user_data",
-	type: 'GET'}).done(function(data1) {
-		console.log(data1.username.id)
-		var userid = data1.username.id
+	url:"/api/user_search/" + userid,
+	type: 'GET'}).done(function(data) {
+		$("#spanname").html( data[0].firstname + " " + data[0].lastname);
+	});
+
+
+
+
 		$.ajax({
-		  url:"/api/myteam",
+		  url:"/api/team/" + userid,
+		  data: {
+		  	userid: userid
+		  },
 		  type: 'get'}).done(function(data2){
 		  	console.log(data2)
 		   $(".results").html(" ");
@@ -110,7 +131,7 @@ $.ajax({
 		        $("#" + data2[i].id).append("<th class='ochki'>" + score + "</th></tr>");
 		        };
 		    });
-	});
+
 	
 
 

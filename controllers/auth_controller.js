@@ -42,6 +42,12 @@ exports.index = function(req, res) {
 
 }
 
+exports.team = function(req, res) {
+
+    res.sendFile(path.join(__dirname, "../public/team.html"));
+
+}
+
 exports.playerrating = function(req, res) {
 
     res.sendFile(path.join(__dirname, "../public/ratingp.html"));
