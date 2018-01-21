@@ -77,8 +77,9 @@ app.get('/', isLoggedIn, authController.index);
     return next();
   })
   .catch(function(errorCodes){
+    res.redirect('/signup');
     // invalid
-    res.json({formSubmit:false,errors:recaptcha.translateErrors(errorCodes)});// translate error codes to human readable text
+    //res.json({formSubmit:false,errors:recaptcha.translateErrors(errorCodes)});// translate error codes to human readable text
   });
 }
 
