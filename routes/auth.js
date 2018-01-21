@@ -24,6 +24,8 @@ module.exports = function(app, passport, sequelize) {
 
   app.get('/playerrating', isLoggedIn, authController.playerrating);
 
+  app.get('/change', isLoggedIn, authController.change);
+
   app.get('/userrating', isLoggedIn, authController.userrating);
 
    app.get('/team', isLoggedIn, authController.team);

@@ -24,6 +24,10 @@ th {
     text-align:center ;
 }
 
+.tablica {
+  font-size: 15px;
+}
+
 a.disabled {
     pointer-events: none;
 }

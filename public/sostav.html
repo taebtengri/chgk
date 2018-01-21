@@ -29,7 +29,7 @@
 				<h1 >Что? Где? Когда? фэнтези</h1>
 			</div>
 			<div class="col-md-3">
-			<div style="position: fixed; margin-left: 15px">
+			<div style="margin-left: 15px">
 				<a href="/"><button class="btn btn-default" style="margin-left: 0px"> На главную</button></a>
 				<a href='/signout'><button class="btn-danger" type="button"> Выход</button></a>	
 				</div>
@@ -60,9 +60,9 @@
 			</div>
 		</div>	
 		<div class="row">
-			<div class="col-md-9">
+			<div class="col-lg-9">
 			<br>
-				<h2>Моя команда</h2>
+				<h2>Изменение состава</h2>
 				<div class="tablica">
 			        <table class="table" id="table">
 			          <tr>
@@ -70,6 +70,8 @@
 			          <th><button type="button" class="btn btn-default" id="igrok">Игрок</button></th>
 			          <th><button type="button" class="btn btn-default" id="komanda">Стоимость</button></th>
 			          <th><button type="button" class="btn btn-default" id="ochki">Набранные очки</button></th>
+			          <th></th>
+			          <th></th>
 			            
 			          </tr>
 			          <tr class="results"></tr>
@@ -77,21 +79,64 @@
 			     </div>
 				
 			</div>
+			
+			<div class="col-lg-9">
+			<br>
+			<h2>Доступные игроки</h2>
+				<div class="tablica">
+			        <table class="table" id="table2">
+			          <tr>
+			          <th></th>
+			          <th><button type="button" class="btn btn-default" id="igrok1">Игрок</button></th>
+			          <th><button type="button" class="btn btn-default" id="komanda1">Команда</button></th>
+			          <th><button type="button" class="btn btn-default" id="stoim">Стоимость</button></th>
+			          </tr>
+			          <tr class="results2"></tr>
+			        </table>
+			     </div>
+				
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-9">
-				<h3>
-					Общая стоимость: <span id="totalprice"></span>
-				</h3>
-				<h3>
-					Очки команды: <span id="totalscore"></span>
-				</h3>
+				
 			</div>
 		</div>
 	</div>
 
 </body>
 <script type="text/javascript">
+$.ajax({
+  url:"/api/ratingp",
+  type: 'GET'}).done(function(data){
+   $(".results2").html(" ");
+     console.log(data);
+        for (var i = 0; i < data.length; i++) {
+        var wellSection = $("<tr class='results2'>");
+        wellSection.addClass("well");
+        wellSection.attr("id", data[i].id);
+        $("#table2").append(wellSection);
+        $("#" + data[i].id).append("<th class='foto'><img src='" + data[i].photo + "'></th>");
+       
+        if (data[i].captain == "yes") {
+        	 $("#" + data[i].id).append("<th class='imya'>" + data[i].name + "<br> <span style='font-size: 13px;'>Капитан</span></th>");
+        }
+        else {
+        	 $("#" + data[i].id).append("<th class='imya'>" + data[i].name + "</th>");
+        }
+        $("#" + data[i].id).append("<th class='komanda'>"+ data[i].team +"</th>");
+        var score;
+        if (data[i].score == null) {
+        	score = 0;
+        }
+        else {
+        	score = data[i].score;
+        }
+        $("#" + data[i].id).append("<th class='ochki'>" + score + "</th></tr>");
+        $("#" + data[i].id).append("<th class='mklead'><button type='button' class='btn btn-primary makeleader'>+</button></th></tr>");
+        };
+    });
+
 $.ajax({
 	url:"/api/user_data",
 	type: 'GET'}).done(function(data1) {
@@ -136,9 +181,12 @@ $.ajax({
 		        	score = data2[i].score;
 		        }
 		        $("#" + data2[i].id).append("<th class='ochki'>" + score + "</th></tr>");
+		        $("#" + data2[i].id).append("<th class='mklead'><button type='button' class='btn btn-info makeleader'>Лидер!</button></th></tr>");
+		        $("#" + data2[i].id).append("<th><button type='button' class='btn btn-danger remove'>-</button></th></tr>");
 		        };
-		        $("#totalscore").html(tscore);
-		        $("#totalprice").html(tprice);
+
+
+		    
 		    });
 	});
 	

@@ -47,7 +47,7 @@
 					  </button>
 					  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 					    <a class="dropdown-item" href="/myteam">Команда</a>
-					    <a class="dropdown-item" href="#">Изменение состава</a>
+					    <a class="dropdown-item" href="/change">Изменение состава</a>
 					  </div>
 					  </div>
 				  <div class="btn-group" role="group">
@@ -62,13 +62,13 @@
 		<div class="row">
 			<div class="col-md-9">
 			<br>
-				<h2>Команда пользователя <span id="spanname"></span></h1>
+				<h2>Команда пользователя <span id="spanname"></span></h2>
 				<div class="tablica">
 			        <table class="table" id="table">
 			          <tr>
 			          <th></th>
 			          <th><button type="button" class="btn btn-default" id="igrok">Игрок</button></th>
-			          <th><button type="button" class="btn btn-default" id="komanda">Стоимость</button></th>
+			          <th><button type="button" class="btn btn-default" id="stoimost">Стоимость</button></th>
 			          <th><button type="button" class="btn btn-default" id="ochki">Набранные очки</button></th>
 			            
 			          </tr>
@@ -76,6 +76,16 @@
 			        </table>
 			     </div>
 				
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-9">
+				<h3>
+					Общая стоимость: <span id="totalprice"></span>
+				</h3>
+				<h3>
+					Очки команды: <span id="totalscore"></span>
+				</h3>
 			</div>
 		</div>
 	</div>
@@ -110,17 +120,34 @@ $.ajax({
 		  	userid: userid
 		  },
 		  type: 'get'}).done(function(data2){
+		  	var tscore = 0 
+		  	var tprice = 0;
 		  	console.log(data2)
 		   $(".results").html(" ");
 		     console.log(data2);
 		        for (var i = 0; i < data2.length; i++) {
+		        	tprice += data2[i].price;
+		        	tscore += data2[i].score;
 		        var wellSection = $("<tr class='results'>");
 		        wellSection.addClass("well");
 		        wellSection.attr("id", data2[i].id);
 		        $("#table").append(wellSection);
 		        $("#" + data2[i].id).append("<th class='foto'><img src='" + data2[i].photo + "'></th>");
-		        $("#" + data2[i].id).append("<th class='imya'>" + data2[i].name + "</th>");
-		        $("#" + data2[i].id).append("<th class='ochki'>"+ data2[i].score +"</th>");
+		        if (data2[i].captain == "yes") {
+		        	 $("#" + data2[i].id).append("<th class='imya'>" + data2[i].name + "<br> <span style='font-size: 13px;'>Капитан</span></th>");
+		        }
+		        else {
+		        	 $("#" + data2[i].id).append("<th class='imya'>" + data2[i].name + "</th>");
+		        }
+		        var price;
+		        if (data2[i].price == null) {
+		        	price = 0;
+		        }
+		        else {
+		        	price = data2[i].price;
+		        }
+		        
+		        $("#" + data2[i].id).append("<th class='stoim'>"+ price +"</th>");
 		        var score;
 		        if (data2[i].score == null) {
 		        	score = 0;
@@ -130,6 +157,9 @@ $.ajax({
 		        }
 		        $("#" + data2[i].id).append("<th class='ochki'>" + score + "</th></tr>");
 		        };
+		        $("#totalscore").html(tscore);
+		        $("#totalprice").html(tprice);
+
 		    });
 
 	
