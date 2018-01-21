@@ -79,7 +79,7 @@ function validate() {
     return false;
   }
 
-var letterNumber = /[^0-9a-z]/gi;
+var letterNumber = /^\w+$/;
  if(($("#username").val().trim().match(letterNumber))) {
    console.log("1")
   }
