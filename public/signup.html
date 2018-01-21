@@ -79,8 +79,16 @@ function validate() {
     return false;
   }
 
-
-
+var letterNumber = /^[0-9a-zA-Z]+$/;
+ if(($("#email").val().trim().match(letterNumber))) {
+   console.log("1")
+  }
+else{ 
+   $("#result").text("Имя пользователя может состоять только из букв латинского алфавита и цифр"); 
+   $("#result").css("color", "red");
+   return false; 
+  }
+  
 
 }
 
