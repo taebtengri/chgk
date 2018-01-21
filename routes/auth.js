@@ -27,7 +27,7 @@ module.exports = function(app, passport, sequelize) {
 
   app.post('/register', submitForm, passport.authenticate('local-signup', {
       successRedirect: '/',
-      failureRedirect: '/register',
+      failureRedirect: '/signup',
     }
 
   ));
