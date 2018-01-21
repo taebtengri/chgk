@@ -41,7 +41,14 @@
 				    <a href="/rules"><button type="button" class="btn btn-default">Правила</button></a>
 				  </div>
 				  <div class="btn-group" role="group">
-				    <a href=""><button type="button" class="btn btn-default">Моя команда</button></a>
+					  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					    Моя команда
+					  </button>
+					  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					    <a class="dropdown-item" href="/myteam">Команда</a>
+					    <a class="dropdown-item" href="#">Трансферы</a>
+					  </div>
+					
 				  </div>
 				  <div class="btn-group" role="group">
 				    <a href="/userrating"><button type="button" class="btn btn-default">Рейтинг пользователей</button></a>
@@ -61,7 +68,7 @@ $.ajax({
 	url:"/api/user_data",
 	type: 'GET'}).done(function(data) {
 		$("#username").html("Добро пожаловать, " + data.username.firstname);
-		if (data.username.firstname == "admin") {
+		if (data.username.username == "admin") {
 			$("#aaa").html('<br><a href="/admin"><button class="btn-primary" type="button"> Панель администратора</button></a>')
 		}
 	});

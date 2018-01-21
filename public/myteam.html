@@ -62,12 +62,14 @@
 		<div class="row">
 			<div class="col-md-9">
 			<br>
-				<h2>Рейтинг пользователей</h1>
+				<h2>Моя команда</h1>
 				<div class="tablica">
 			        <table class="table" id="table">
 			          <tr>
-			          <th><button type="button" class="btn btn-default" id="igrok">Пользователь</button></th>
-			          <th><button type="button" class="btn btn-default" id="ochki">Очки</button></th>
+			          <th></th>
+			          <th><button type="button" class="btn btn-default" id="igrok">Игрок</button></th>
+			          <th><button type="button" class="btn btn-default" id="komanda">Стоимость</button></th>
+			          <th><button type="button" class="btn btn-default" id="ochki">Набранные очки</button></th>
 			            
 			          </tr>
 			          <tr class="results"></tr>
@@ -79,31 +81,37 @@
 	</div>
 </body>
 <script type="text/javascript">
-
-var ci = 0;
-var ck = 0;
-var co = 0;
-
-	$.ajax({
-  url:"/api/ratingu",
-  type: 'GET'}).done(function(data){
-   $(".results").html(" ");
-     console.log(data);
-        for (var i = 0; i < data.length; i++) {
-        var wellSection = $("<tr class='results'>");
-        wellSection.addClass("well");
-        wellSection.attr("id", data[i].id);
-        $("#table").append(wellSection);
-        $("#" + data[i].id).append("<th class='imya'><a href='' id='"+ data[i].id +"'' disabled>" + data[i].firstname + " " + data[i].lastname + "</a></th>")
-        if (data[i].score == null) {
-        	score = 0;
-        }
-        else {
-        	score = data[i].score;
-        }
-        $("#" + data[i].id).append("<th class='ochki'>" + score + "</th></tr>");
-        };
-    });
+$.ajax({
+	url:"/api/user_data",
+	type: 'GET'}).done(function(data1) {
+		console.log(data1.username.id)
+		var userid = data1.username.id
+		$.ajax({
+		  url:"/api/myteam",
+		  type: 'get'}).done(function(data2){
+		  	console.log(data2)
+		   $(".results").html(" ");
+		     console.log(data2);
+		        for (var i = 0; i < data2.length; i++) {
+		        var wellSection = $("<tr class='results'>");
+		        wellSection.addClass("well");
+		        wellSection.attr("id", data2[i].id);
+		        $("#table").append(wellSection);
+		        $("#" + data2[i].id).append("<th class='foto'><img src='" + data2[i].photo + "'></th>");
+		        $("#" + data2[i].id).append("<th class='imya'>" + data2[i].name + "</th>");
+		        $("#" + data2[i].id).append("<th class='ochki'>"+ data2[i].score +"</th>");
+		        var score;
+		        if (data2[i].score == null) {
+		        	score = 0;
+		        }
+		        else {
+		        	score = data2[i].score;
+		        }
+		        $("#" + data2[i].id).append("<th class='ochki'>" + score + "</th></tr>");
+		        };
+		    });
+	});
+	
 
 
 

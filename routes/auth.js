@@ -26,6 +26,8 @@ module.exports = function(app, passport, sequelize) {
 
   app.get('/userrating', isLoggedIn, authController.userrating);
 
+  app.get('/myteam', isLoggedIn, authController.myteam);
+
 
   app.post('/register', submitForm, passport.authenticate('local-signup', {
       successRedirect: '/',
@@ -118,4 +120,40 @@ app.get('/api/user_data', function(req, res) {
         });
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
+
+app.get("/api/myteam", function(req, res) {
+
+
+
+  var parameters = req.user.id;
+  console.log(parameters);
+  var players = "( ";
+    connection.query("SELECT * FROM userteams WHERE userid = ? ORDER BY isCaptain ASC, player ASC", parameters
+, function(err, data) {
+  console.log(data.length + " l")
+  for (i=0; i < data.length; i++) {
+    players += data[i].player.toString() + ", ";
+  };
+  
+  players = players.slice(0, players.length - 2);
+  players += ")"
+  console.log(players);
+    connection.query("SELECT * FROM players WHERE id in " + players, function(err, data1){
+      console.log(data1)
+      return res.json(data1);
+    })
+    // if (i == (data.length - 1)) {
+    //   console.log("end")
+    //   console.log(players)
+    //   return res.json(players);
+    // }
+  
+
+
+  
+});
+});
+
+
+
 }

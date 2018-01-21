@@ -14,6 +14,12 @@ exports.login = function(req, res) {
 
 }
 
+exports.myteam = function(req, res) {
+
+    res.sendFile(path.join(__dirname, "../public/myteam.html"))
+
+}
+
 exports.admin = function(req, res) {
 
     res.sendFile(path.join(__dirname, "../public/admin.html"))
