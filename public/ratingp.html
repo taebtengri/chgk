@@ -45,10 +45,10 @@
 				    <a href=""></a><button type="button" class="btn btn-default">Моя команда</button></a>
 				  </div>
 				  <div class="btn-group" role="group">
-				    <a href=""></a><button type="button" class="btn btn-default">Рейтинг пользователей</button></a>
+				    <a href="/userrating"><button type="button" class="btn btn-default">Рейтинг пользователей</button></a>
 				  </div>
 				  <div class="btn-group" role="group">
-				    <a href=""><button type="button" class="btn btn-default">Рейтинг игроков</button></a>
+				    <a href="/playerrating"><button type="button" class="btn btn-default">Рейтинг игроков</button></a>
 				  </div>
 				</div>
 			</div>
@@ -88,11 +88,11 @@ var co = 0;
         for (var i = 0; i < data.length; i++) {
         var wellSection = $("<tr class='results'>");
         wellSection.addClass("well");
-        wellSection.attr("id", "c" + i);
+        wellSection.attr("id", data[i].id);
         $("#table").append(wellSection);
-        $("#c" + i).append("<th class='foto'><img src='" + data[i].photo + "'></th>");
-        $("#c" + i).append("<th class='imya'>" + data[i].name + "</th>");
-        $("#c" + i).append("<th class='komanda'>"+ data[i].team +"</th>");
+        $("#" + data[i].id).append("<th class='foto'><img src='" + data[i].photo + "'></th>");
+        $("#" + data[i].id).append("<th class='imya'>" + data[i].name + "</th>");
+        $("#" + data[i].id).append("<th class='komanda'>"+ data[i].team +"</th>");
         var score;
         if (data[i].score == null) {
         	score = 0;
@@ -100,7 +100,7 @@ var co = 0;
         else {
         	score = data[i].score;
         }
-        $("#c" + i).append("<th class='ochki'>" + score + "</th></tr>");
+        $("#" + data[i].id).append("<th class='ochki'>" + score + "</th></tr>");
         };
     });
 

@@ -42,6 +42,12 @@ exports.playerrating = function(req, res) {
 
 }
 
+exports.userrating = function(req, res) {
+
+    res.sendFile(path.join(__dirname, "../public/ratingu.html"));
+
+}
+
 exports.rules = function(req, res) {
 
     res.sendFile(path.join(__dirname, "../public/rules.html"));

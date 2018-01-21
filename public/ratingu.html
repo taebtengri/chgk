@@ -24,14 +24,15 @@
 
 <body>
 	<div class="container">
-		<div class="row" >
+		<div class="row" style="margin: 50px">
 			<div class="col-md-9">
-				<h1 style="margin: 50px">Что? Где? Когда? фэнтези</h1>
+				<h1 >Что? Где? Когда? фэнтези</h1>
 			</div>
 			<div class="col-md-3">
-				<div id="username"></div>
-				<a href='/signout'><button class="btn-danger" type="button"> Выход</button></a>
-				<div id="aaa"></span>	
+			<div style="position: fixed; margin-left: 15px">
+				<a href="/"><button class="btn btn-default" style="margin-left: 0px"> На главную</button></a>
+				<a href='/signout'><button class="btn-danger" type="button"> Выход</button></a>	
+				</div>
 			</div>
 		</div>
 		<div class="row">
@@ -41,7 +42,7 @@
 				    <a href="/rules"><button type="button" class="btn btn-default">Правила</button></a>
 				  </div>
 				  <div class="btn-group" role="group">
-				    <a href=""><button type="button" class="btn btn-default">Моя команда</button></a>
+				    <a href=""></a><button type="button" class="btn btn-default">Моя команда</button></a>
 				  </div>
 				  <div class="btn-group" role="group">
 				    <a href="/userrating"><button type="button" class="btn btn-default">Рейтинг пользователей</button></a>
@@ -52,21 +53,54 @@
 				</div>
 			</div>
 		</div>	
+		<div class="row">
+			<div class="col-md-9">
+			<br>
+				<h2>Рейтинг пользователей</h1>
+				<div class="tablica">
+			        <table class="table" id="table">
+			          <tr>
+			          <th><button type="button" class="btn btn-default" id="igrok">Пользователь</button></th>
+			          <th><button type="button" class="btn btn-default" id="ochki">Очки</button></th>
+			            
+			          </tr>
+			          <tr class="results"></tr>
+			        </table>
+			     </div>
+				
+			</div>
+		</div>
 	</div>
 </body>
-
 <script type="text/javascript">
 
-$.ajax({
-	url:"/api/user_data",
-	type: 'GET'}).done(function(data) {
-		$("#username").html("Добро пожаловать, " + data.username.firstname);
-		if (data.username.firstname == "admin") {
-			$("#aaa").html('<br><a href="/admin"><button class="btn-primary" type="button"> Панель администратора</button></a>')
-		}
-	});
+var ci = 0;
+var ck = 0;
+var co = 0;
 
-	
+	$.ajax({
+  url:"/api/ratingu",
+  type: 'GET'}).done(function(data){
+   $(".results").html(" ");
+     console.log(data);
+        for (var i = 0; i < data.length; i++) {
+        var wellSection = $("<tr class='results'>");
+        wellSection.addClass("well");
+        wellSection.attr("id", data[i].id);
+        $("#table").append(wellSection);
+        $("#" + data[i].id).append("<th class='imya'><a href='' id='"+ data[i].id +"'' disabled>" + data[i].firstname + " " + data[i].lastname + "</a></th>")
+        if (data[i].score == null) {
+        	score = 0;
+        }
+        else {
+        	score = data[i].score;
+        }
+        $("#" + data[i].id).append("<th class='ochki'>" + score + "</th></tr>");
+        };
+    });
+
+
+
 </script>
 
 

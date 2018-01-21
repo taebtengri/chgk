@@ -24,13 +24,15 @@ module.exports = function(app, passport, sequelize) {
 
   app.get('/playerrating', isLoggedIn, authController.playerrating);
 
+  app.get('/userrating', isLoggedIn, authController.userrating);
+
 
   app.post('/register', submitForm, passport.authenticate('local-signup', {
       successRedirect: '/',
       failureRedirect: '/signup',
     }
 
-  ));
+  ), assignMoney);
 
   app.get('/signout', authController.signout);
 
@@ -81,6 +83,13 @@ app.get('/', isLoggedIn, authController.index);
     // invalid
     //res.json({formSubmit:false,errors:recaptcha.translateErrors(errorCodes)});// translate error codes to human readable text
   });
+}
+
+function assignMoney(req, res) {
+  connection.query("UPDATE users SET money = 15 WHERE username = ?", req.user.username,
+ function(err, data) {
+  console.log("updated")
+});
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
