@@ -32,7 +32,7 @@ module.exports = function(app, passport, sequelize) {
       failureRedirect: '/signup',
     }
 
-  ), assignMoney);
+  ));
 
   app.get('/signout', authController.signout);
 
@@ -85,12 +85,6 @@ app.get('/', isLoggedIn, authController.index);
   });
 }
 
-function assignMoney(req, res) {
-  connection.query("UPDATE users SET money = 15 WHERE username = ?", req.user.username,
- function(err, data) {
-  console.log("updated")
-});
-}
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 // API routes

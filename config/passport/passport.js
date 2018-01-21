@@ -165,7 +165,9 @@ module.exports = function(passport, user) {
 
               firstname: req.body.firstname,
 
-              lastname: req.body.lastname
+              lastname: req.body.lastname,
+
+              money: 15
 
             };
 
