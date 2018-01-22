@@ -96,6 +96,16 @@ app.get("/api/ratingp", function(req, res) {
 
 });
 
+app.get("/api/ratingpr", function(req, res) {
+  var players;
+  connection.query("SELECT * FROM players ORDER BY price DESC, name ASC", {
+}, function(err, data) {
+  players = data;
+  return res.json(players);
+});
+
+});
+
 app.get("/api/ratingu", function(req, res) {
   var players;
   connection.query("SELECT * FROM users ORDER BY score DESC, firstname ASC", {

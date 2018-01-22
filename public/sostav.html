@@ -4,6 +4,8 @@
 	<title>Что? Где? Когда? фэнтези</title>
 		<script src="https://code.jquery.com/jquery.js">
 		</script>
+		<link href="/public/bootstrap-switch.css" rel="stylesheet">
+		<script src="/public/bootstrap-switch.js"></script>
 
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 
@@ -20,7 +22,7 @@
 
 </head>
 	<script src="./public/js/time.js"></script>
-	<!-- <script src="./public/js/touch.js"></script> -->
+
 
 <body>
 	<div class="container">
@@ -64,10 +66,11 @@
 			<br>
 				<h2>Изменение состава</h2>
 				<div class="tablica">
-			        <table class="table" id="table">
+			        <table class="table myplayers" id="table">
 			          <tr>
 			          <th></th>
 			          <th><button type="button" class="btn btn-default" id="igrok">Игрок</button></th>
+			          <th><button type="button" class="btn btn-default" id="komanda1">Команда</button></th>
 			          <th><button type="button" class="btn btn-default" id="komanda">Стоимость</button></th>
 			          <th><button type="button" class="btn btn-default" id="ochki">Набранные очки</button></th>
 			          <th></th>
@@ -80,16 +83,28 @@
 				
 			</div>
 			
+			
+			</div>
+			<div class="row">
+				<div class="col-md-9">
+					<h4>Деньги: <span id="usermoney"> </span></h4>
+					<button type="button" class="btn btn-primary" id="save">Записать изменения</button>
+				</div>
+				
+			</div>
+			<div class="row">
+			
 			<div class="col-lg-9">
 			<br>
 			<h2>Доступные игроки</h2>
 				<div class="tablica">
-			        <table class="table" id="table2">
+			        <table class="table allplayers" id="table2">
 			          <tr>
 			          <th></th>
 			          <th><button type="button" class="btn btn-default" id="igrok1">Игрок</button></th>
 			          <th><button type="button" class="btn btn-default" id="komanda1">Команда</button></th>
 			          <th><button type="button" class="btn btn-default" id="stoim">Стоимость</button></th>
+			          <th><button type="button" class="btn btn-default" id="ochki">Набранные очки</button></th>
 			          </tr>
 			          <tr class="results2"></tr>
 			        </table>
@@ -106,50 +121,32 @@
 
 </body>
 <script type="text/javascript">
-$.ajax({
-  url:"/api/ratingp",
-  type: 'GET'}).done(function(data){
-   $(".results2").html(" ");
-     console.log(data);
-        for (var i = 0; i < data.length; i++) {
-        var wellSection = $("<tr class='results2'>");
-        wellSection.addClass("well");
-        wellSection.attr("id", data[i].id);
-        $("#table2").append(wellSection);
-        $("#" + data[i].id).append("<th class='foto'><img src='" + data[i].photo + "'></th>");
-       
-        if (data[i].captain == "yes") {
-        	 $("#" + data[i].id).append("<th class='imya'>" + data[i].name + "<br> <span style='font-size: 13px;'>Капитан</span></th>");
-        }
-        else {
-        	 $("#" + data[i].id).append("<th class='imya'>" + data[i].name + "</th>");
-        }
-        $("#" + data[i].id).append("<th class='komanda'>"+ data[i].team +"</th>");
-        var score;
-        if (data[i].score == null) {
-        	score = 0;
-        }
-        else {
-        	score = data[i].score;
-        }
-        $("#" + data[i].id).append("<th class='ochki'>" + score + "</th></tr>");
-        $("#" + data[i].id).append("<th class='mklead'><button type='button' class='btn btn-primary makeleader'>+</button></th></tr>");
-        };
-    });
+
+var leaderid = -1;
+var money = $("money");
+var captaincount = 0;
+var playercount = 0;
+var userid;
 
 $.ajax({
 	url:"/api/user_data",
 	type: 'GET'}).done(function(data1) {
 		var tscore = 0 
 		var tprice = 0;
-		console.log(data1.username.id)
-		var userid = data1.username.id
+		console.log(data1.username)
+		userid = data1.username.id
+		$("#usermoney").html(data1.username.money)
+		money = data1.username.money
 		$.ajax({
 		  url:"/api/myteam",
 		  type: 'get'}).done(function(data2){
-		  	console.log(data2)
-		   $(".results").html(" ");
-		     console.log(data2);
+		  	
+		   
+		     
+		     var existing = [];
+		     if(data2){
+		     	console.log(data2);
+		     	$(".results").html(" ");
 		        for (var i = 0; i < data2.length; i++) {
 		        tprice += data2[i].price;
 		        tscore += data2[i].score;
@@ -159,11 +156,14 @@ $.ajax({
 		        $("#table").append(wellSection);
 		        $("#" + data2[i].id).append("<th class='foto'><img src='" + data2[i].photo + "'></th>");
 		        if (data2[i].captain == "yes") {
-		        	 $("#" + data2[i].id).append("<th class='imya'>" + data2[i].name + "<br> <span style='font-size: 13px;'>Капитан</span></th>");
+		        	 $("#" + data2[i].id).append("<th class='imya'>" + data2[i].name + "<br> <span class='captain' style='font-size: 13px;'>Капитан</span></th>");
+		        	 captaincount++;
 		        }
-		        else {
+		        else if (data2[i].captain == "no"){
 		        	 $("#" + data2[i].id).append("<th class='imya'>" + data2[i].name + "</th>");
+		        	 playercount++;
 		        }
+		        $("#" + data2[i].id).append("<th class='komanda'>"+ data2[i].team +"</th>");
 		        var price;
 		        if (data2[i].price == null) {
 		        	price = 0;
@@ -181,15 +181,246 @@ $.ajax({
 		        	score = data2[i].score;
 		        }
 		        $("#" + data2[i].id).append("<th class='ochki'>" + score + "</th></tr>");
-		        $("#" + data2[i].id).append("<th class='mklead'><button type='button' class='btn btn-info makeleader'>Лидер!</button></th></tr>");
-		        $("#" + data2[i].id).append("<th><button type='button' class='btn btn-danger remove'>-</button></th></tr>");
+		        $("#" + data2[i].id).append("<th class='main'><input type='checkbox' class='my-checkbox' data-on-text=' Основа' data-off-text='Замена'></th>");
+		        
+		        $("#" + data2[i].id).append("<th class='mklead'><button type='button' class='btn btn-info makeleader'>Лидер!</button></th>");
+		        $("#" + data2[i].id).append("<th class='rem'><button type='button' class='btn btn-danger remove'>-</button></th></tr>");
+		        $(".my-checkbox").bootstrapSwitch();
+		        existing.push(data2[i].id);
 		        };
+		        console.log(existing);
+		    }
+		        $.ajax({
+				  url:"/api/ratingpr",
+				  type: 'GET'}).done(function(data){
+				   $(".results2").html(" ");
+				     console.log(data);
+     
+        for (var i = 0; i < data.length; i++) {
+        var wellSection = $("<tr class='results2'>");
+        wellSection.addClass("well");
+        wellSection.attr("id", data[i].id);
+        $("#table2").append(wellSection);
+        if (existing.indexOf(data[i].id) !== -1) {
+        	continue;
+        }
+        $("#" + data[i].id).append("<th class='foto'><img src='" + data[i].photo + "'></th>");
+       
+        if (data[i].captain == "yes") {
+        	 $("#" + data[i].id).append("<th class='imya'>" + data[i].name + "<br> <span class='captain' style='font-size: 13px;'>Капитан</span></th>");
+        }
+        else {
+        	 $("#" + data[i].id).append("<th class='imya'>" + data[i].name + "</th>");
+        }
+        $("#" + data[i].id).append("<th class='komanda'>"+ data[i].team +"</th>");
+        var price1;
+		        if (data[i].price == null) {
+		        	price1 = 0;
+		        }
+		        else {
+		        	price1 = data[i].price;
+		        }
+        $("#" + data[i].id).append("<th class='stoim'>"+ price1 +"</th>");
+        var score;
+        if (data[i].score == null) {
+        	score = 0;
+        }
+        else {
+        	score = data[i].score;
+        }
+        $("#" + data[i].id).append("<th class='ochki'>" + score + "</th>");
+        $("#" + data[i].id).append("<th class='mklead'><button type='button' class='btn btn-primary add'>+</button></th></tr>");
+        
+
+        };
+        console.log(existing);
+        $.ajax({
+				  url:"/api/leadermain",
+				  type: 'GET'}).done(function(data3){
+				  	console.log(data3);
+				  	for (i=0; i < data3.length; i++) {
+				  		if (data3[i].isMain == 1) {
+				  			$("#" + data3[i].player + " .my-checkbox").trigger("click");
+				  			
+				  		}
+				  		if (data3[i].isLeader == 1) {
+				  			$("#" + data3[i].player + " .makeleader").trigger("click");
+				  		}
+				  	}
+				  	console.log(playercount);
+				  	console.log(captaincount);
+				  })
+    });
+
 
 
 		    
 		    });
 	});
+
+
+
+
+$(document).on('click', 'button.makeleader', function () {
+	$(this).parent().parent().attr("style", "background-color: mediumturquoise")
+	$(this).parent().parent().siblings().removeAttr("style", "background-color: mediumturquoise")
+	leaderid = $(this).parent().parent().prop("id");
+	console.log(leaderid);
+})
+
+
+$(document).on('click', 'button.add', function () {
+	var pr = Number($(this).parent().siblings(".stoim").text())
+	if(money - pr < 0) {
+		alert("Недостаточно денег!")
+		return
+	}
+	if ($(this).parent().siblings().children().hasClass('captain')) {
+		if(captaincount >= 2) {
+			alert("Выбрано два капитана");
+			return;
+		}
+		captaincount++
+
+	}
+	else {
+		if(playercount >= 10) {
+			alert("Выбрано десять игроков");
+			return;
+		}
+		else{
+		playercount++
+		}
+	}
+	$(this).parent().parent().append("<th class='main'><input type='checkbox' class='my-checkbox' data-on-text=' Основа' data-off-text='Замена'></th>");
+    $(this).parent().parent().append("<th class='mklead'><button type='button' class='btn btn-info makeleader'>Лидер!</button></th>");
+    $(this).parent().parent().append("<th><button type='button' class='btn btn-danger remove'>-</button></th></tr>");
+    $(".my-checkbox").bootstrapSwitch();
+	var move = $(this).parent().parent();
+	money = money - pr;
+	$("#usermoney").html(money);
+	move.appendTo("#table")
+	$(this).parent().remove();
+	$(this).remove();
 	
+})
+
+$(document).on('click', 'button.remove', function () {
+	var attr = $(this).parent().parent().attr('style');
+	if (typeof attr !== typeof undefined && attr !== false && attr == "background-color: mediumturquoise") {
+	  leaderid = -1
+	}
+	if ($(this).parent().siblings().children().hasClass('captain')) {
+		captaincount--
+	}
+	else {
+		playercount--
+	}
+	console.log(captaincount);
+	console.log(playercount);
+	console.log(leaderid);
+	$(this).parent().parent().removeAttr("style", "background-color: mediumturquoise")
+    $(this).parent().parent().append("<th><button type='button' class='btn btn-primary add'>+</button></th></tr>");
+	var move = $(this).parent().parent();
+	var pr = Number($(this).parent().siblings(".stoim").html())
+	money = money + pr;
+	$("#usermoney").html(money);
+	move.appendTo("#table2").first()
+	$(this).parent().siblings(".mklead, .main").remove();
+	$(this).parent().remove();
+	$(this).remove();
+	
+})
+
+$(document).on('click', '#save', function () {
+	var mainCounter = 0;
+	var mainCapcounter = 0;
+	var mainArray = [];
+	$(".my-checkbox").each(function(){
+		if ($(this).bootstrapSwitch('state')) {
+			mainCounter++
+			mainArray.push(Number($(this).parent().parent().parent().parent().prop("id")))
+			if ($(this).parent().parent().parent().siblings().children().hasClass('captain')) {
+				mainCapcounter++
+			};
+		}
+	})
+	console.log(mainArray);
+
+	if (leaderid == -1) {
+		alert("Не выбран лидер!")
+		return;
+	}
+	if (captaincount !== 2) {
+		alert("Не выбрано два капитана!")
+		return;
+	}
+	if (playercount !== 10) {
+		alert("Не выбрано десять игроков!")
+		return;
+	}
+
+	if (money < 0) {
+		alert("Недостаточно денег!")
+		return;
+	}
+	var arr = [];
+	$("#table .komanda").each(function() {
+  		if(arr.indexOf($( this ).text()) == -1) {
+  			arr.push($( this ).text())
+  		}
+  		
+  			
+	});
+	console.log(arr);
+	if (arr.length < 8) {
+		alert("В вашей команде не представлены все команды клуба!")
+		return;
+	}
+
+	if (mainCounter < 6) {
+		alert("В основе меньше 6 игроков");
+		return;
+	}
+	else if(mainCounter > 6) {
+		alert("В основе больше 6 игроков");
+		return;
+	}
+
+	if(mainCapcounter < 1) {
+		alert("В основе нет капитана");
+		return;
+	}
+	else if(mainCapcounter > 1) {
+		alert("В основе более одного капитана");
+		return;
+	}
+
+	var selectedArray = [];
+
+	$("#table .imya").each(function(){
+		selectedArray.push(Number($(this).parent().prop('id')));
+	})
+
+	var teamObject = {
+		main: mainArray,
+		selected: selectedArray,
+		leader: leaderid,
+		userid: userid,
+		money: money
+	}
+
+	var post_url = "/api/saveteam";
+
+	 $.post( post_url, teamObject, function( response ) {
+      alert("Состав обновлен!")
+    });
+
+
+
+
+	
+})
 
 
 

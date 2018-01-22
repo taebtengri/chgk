@@ -140,8 +140,13 @@ app.get("/api/myteam", function(req, res) {
   players += ")"
   console.log(players);
     connection.query("SELECT * FROM players WHERE id in " + players, function(err, data1){
-      console.log(data1)
-      return res.json(data1);
+      console.log("myteam " + data1)
+      var p = data1
+      if (p == undefined) {
+        p = [0]
+      }
+      console.log("myteam " + p)
+      return res.json(p);
     })
 
 });
@@ -179,6 +184,69 @@ app.get("/api/user_search/:id", function(req, res) {
 
 })
 
+app.get("/api/leadermain", function(req, res) {
+  var parameters = req.user.id;
+  console.log(parameters);
+  var players ;
+    connection.query("SELECT * FROM userteams WHERE userid = ? ORDER BY isCaptain ASC, player ASC", parameters
+, function(err, data) {
+  console.log(data);
+  return res.json(data);
+});
+});
 
+app.post("/api/saveteam", isLoggedIn, function(req, res) {
+
+  var parameters = req.body;
+  console.log(parameters)
+
+   connection.query("DELETE FROM userteams WHERE userid = ?", parameters.userid,
+  function(err, data) {
+   console.log("updated")
+   console.log("Number of records deleted: " + res.affectedRows);
+   
+ });
+
+   connection.query("UPDATE users SET money = ? WHERE id = ?", [parameters.money, parameters.userid],
+  function(err, data) {
+   console.log("updated money")  
+ });
+
+var insertion = "INSERT INTO userteams (userid, player, isMain, isLeader) VALUES ?";
+
+
+var values = [];
+
+for(i=0; i < parameters.selected.length; i++) {
+  var arr = [];
+  arr.push(parameters.userid);
+  arr.push(parameters.selected[i])
+  if (parameters.main.indexOf(parameters.selected[i]) !== -1) {
+    arr.push(1)
+  }
+  else {
+    arr.push(0)
+  }
+
+  if (parameters.leader == parameters.selected[i]) {
+    arr.push(1)
+  }
+  else {
+    arr.push(0)
+  }
+
+  values.push(arr);
+
+}
+
+connection.query(insertion, [values], function(err) {
+    if (err) throw err;
+      console.log("done")
+      return res.json(parameters);
+});
+
+
+
+});
 
 }
