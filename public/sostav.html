@@ -73,8 +73,11 @@
 			          <th><button type="button" class="btn btn-default" id="komanda1">Команда</button></th>
 			          <th><button type="button" class="btn btn-default" id="komanda">Стоимость</button></th>
 			          <th><button type="button" class="btn btn-default" id="ochki">Набранные очки</button></th>
-			          <th></th>
-			          <th></th>
+			          <th>
+				Выбрано игроков: <span id="playercount"></span><br>
+				
+				</th>
+			          <th>Выбрано капитанов: <span id="captaincount"></span></th>
 			            
 			          </tr>
 			          <tr class="results"></tr>
@@ -111,12 +114,9 @@
 			     </div>
 				
 			</div>
+			
 		</div>
-		<div class="row">
-			<div class="col-md-9">
-				
-			</div>
-		</div>
+
 	</div>
 
 </body>
@@ -249,6 +249,8 @@ $.ajax({
 				  	}
 				  	console.log(playercount);
 				  	console.log(captaincount);
+				  	$("#playercount").text(playercount);
+				  	$("#captaincount").text(captaincount);
 				  })
     });
 
@@ -300,6 +302,8 @@ $(document).on('click', 'button.add', function () {
 	money = money - pr;
 	$("#usermoney").html(money);
 	move.appendTo("#table")
+	$("#playercount").text(playercount);
+	$("#captaincount").text(captaincount);
 	$(this).parent().remove();
 	$(this).remove();
 	
@@ -325,6 +329,8 @@ $(document).on('click', 'button.remove', function () {
 	var pr = Number($(this).parent().siblings(".stoim").html())
 	money = money + pr;
 	$("#usermoney").html(money);
+	$("#playercount").text(playercount);
+	$("#captaincount").text(captaincount);
 	move.appendTo("#table2").first()
 	$(this).parent().siblings(".mklead, .main").remove();
 	$(this).parent().remove();
